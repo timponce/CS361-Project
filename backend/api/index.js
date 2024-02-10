@@ -16,7 +16,7 @@ const port = process.env.PORT || 8000;
 //   host: process.env.REDIS_HOST || "127.0.0.1",
 // });
 
-const redit = Redis.createClient(process.env.REDISCLOUD_URL, {
+const redis = Redis.createClient(process.env.REDISCLOUD_URL, {
   no_ready_check: true,
 });
 

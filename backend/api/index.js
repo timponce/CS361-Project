@@ -44,6 +44,8 @@ const getCountryInfo = async (country) => {
 
 app.use(cors());
 
+app.use(express.static(new URL("../../client/build", import.meta.url)));
+
 app.get("/country/:countryName", async (req, res) => {
   const countryName = req.params.countryName;
   try {
@@ -52,6 +54,10 @@ app.get("/country/:countryName", async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
+});
+
+app.get("*", (req, res) => {
+  res.sendFile(new URL("../../client/build/index.html", import.meta.url));
 });
 
 app.listen(port, () => {

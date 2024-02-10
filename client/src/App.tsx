@@ -4,7 +4,7 @@ import Search from "./components/Search";
 import Results from "./components/Results";
 
 function App() {
-  const apiURL = "http://localhost:8000/country/";
+  const apiURL = "/country/";
   const apiURLFilters = "?fields=name,capital,population,languages,flag,flags";
 
   const [countryData, setCountryData] = React.useState(null);

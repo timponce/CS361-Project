@@ -2,6 +2,11 @@ import "dotenv/config";
 import express from "express";
 import Redis from "ioredis";
 import cors from "cors";
+import path from "path";
+
+import { dirname } from "path";
+import { fileURLToPath } from "url";
+const __dirname = dirname(fileURLToPath(dirname(import.meta.url)));
 
 const app = express();
 const port = process.env.PORT || 8000;
@@ -44,7 +49,7 @@ const getCountryInfo = async (country) => {
 
 app.use(cors());
 
-app.use(express.static(new URL("../../client/build", import.meta.url)));
+app.use(express.static(path.join(__dirname, "../frontend/build")));
 
 app.get("/country/:countryName", async (req, res) => {
   const countryName = req.params.countryName;
@@ -57,7 +62,7 @@ app.get("/country/:countryName", async (req, res) => {
 });
 
 app.get("*", (req, res) => {
-  res.sendFile(new URL("../../client/build/index.html", import.meta.url));
+  res.sendFile(path.join(__dirname, "../frontend/build/index.html"));
 });
 
 app.listen(port, () => {

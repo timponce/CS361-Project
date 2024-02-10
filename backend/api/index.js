@@ -7,7 +7,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 const __filename = path.dirname(fileURLToPath(path.dirname(import.meta.url)));
 const __dirname = path.dirname(__filename);
-const clientBuildPath = path.resolve(__dirname, "..", "..", "client", "build");
+const clientBuildPath = path.resolve(__dirname, "client", "build");
 
 const app = express();
 const port = process.env.PORT || 8000;

@@ -4,9 +4,10 @@ import Redis from "ioredis";
 import cors from "cors";
 import path from "path";
 
-import { dirname } from "path";
 import { fileURLToPath } from "url";
-const __dirname = dirname(fileURLToPath(dirname(import.meta.url)));
+const __filename = path.dirname(fileURLToPath(path.dirname(import.meta.url)));
+const __dirname = path.dirname(__filename);
+const clientBuildPath = path.join(__dirname, "..", "..", "client", "build");
 
 const app = express();
 const port = process.env.PORT || 8000;
@@ -53,7 +54,7 @@ const getCountryInfo = async (country) => {
 
 app.use(cors());
 
-app.use(express.static(path.join(__dirname, "../../client/build")));
+app.use(express.static(clientBuildPath));
 
 app.get("/country/:countryName", async (req, res) => {
   const countryName = req.params.countryName;
@@ -66,7 +67,7 @@ app.get("/country/:countryName", async (req, res) => {
 });
 
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../../client/build/index.html"));
+  res.sendFile(path.join(clientBuildPath, "index.html"));
 });
 
 app.listen(port, () => {

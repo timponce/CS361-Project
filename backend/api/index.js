@@ -66,7 +66,7 @@ app.get("/country/:countryName", async (req, res) => {
 });
 
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../../client/build, index.html"));
+  res.sendFile(path.join(__dirname, "../../client/build"));
 });
 
 app.listen(port, () => {

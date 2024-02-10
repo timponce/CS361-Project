@@ -7,7 +7,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 const __filename = path.dirname(fileURLToPath(path.dirname(import.meta.url)));
 const __dirname = path.dirname(__filename);
-const clientBuildPath = path.join(__dirname, "..", "..", "client", "build");
+const clientBuildPath = path.resolve(__dirname, "..", "..", "client", "build");
 
 const app = express();
 const port = process.env.PORT || 8000;
@@ -67,7 +67,7 @@ app.get("/country/:countryName", async (req, res) => {
 });
 
 app.get("*", (req, res) => {
-  res.sendFile(path.join(clientBuildPath, "index.html"));
+  res.sendFile(path.resolve(clientBuildPath, "index.html"));
 });
 
 app.listen(port, () => {

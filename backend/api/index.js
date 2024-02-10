@@ -13,7 +13,7 @@ const port = process.env.PORT || 8000;
 
 const redis = new Redis({
   port: process.env.REDIS_PORT || 6379,
-  host: process.env.REDIS_HOST || "127.0.0.1",
+  host: process.env.REDISCLOUD_URL || "127.0.0.1",
 });
 
 const countryEndpoint = (country) =>

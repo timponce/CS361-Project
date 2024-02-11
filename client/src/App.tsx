@@ -8,7 +8,7 @@ function App() {
   const apiURLFilters = "?fields=name,capital,population,languages,flag,flags";
 
   const [countryData, setCountryData] = React.useState(null);
-  console.log(countryData);
+  const [fetchData, setFetchData] = React.useState(null);
 
   const cleanCountryData = (data: any) => {
     const cleanData = {
@@ -29,9 +29,8 @@ function App() {
     try {
       const response = await fetch(`${apiURL}${searchQuery}${apiURLFilters}`);
       let data = await response.json();
-      console.log(data);
-      data = data[0];
-      data = cleanCountryData(data);
+      setFetchData({ ...data, source: data.source, responseTime: data.time });
+      data = cleanCountryData(data[0]);
       setCountryData(data);
     } catch (error) {
       console.log(`Error fetching data: ${error}`);
@@ -41,7 +40,9 @@ function App() {
   return (
     <div className="App">
       <Search fetchCountryData={fetchCountryData} />
-      {countryData ? <Results countryData={countryData} /> : null}
+      {countryData ? (
+        <Results countryData={countryData} fetchData={fetchData} />
+      ) : null}
     </div>
   );
 }

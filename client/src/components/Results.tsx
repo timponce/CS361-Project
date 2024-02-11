@@ -1,6 +1,12 @@
 import React from "react";
 
-function Results({ countryData }: { countryData: any }) {
+function Results({
+  countryData,
+  fetchData,
+}: {
+  countryData: any;
+  fetchData: any;
+}) {
   return (
     <div>
       <h1>Results</h1>
@@ -35,6 +41,9 @@ function Results({ countryData }: { countryData: any }) {
             </td>
           </tr>
         </tbody>
+        <caption>
+          Data fetched via {fetchData.source} in {fetchData.responseTime}
+        </caption>
       </table>
     </div>
   );

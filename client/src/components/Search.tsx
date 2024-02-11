@@ -5,8 +5,6 @@ function Search({ fetchCountryData }: { fetchCountryData: any }) {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     fetchCountryData(query);
-
-    console.log("submitted");
   }
   return (
     <div>

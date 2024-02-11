@@ -12,14 +12,15 @@ const clientBuildPath = path.resolve(__dirname, "client", "build");
 const app = express();
 const port = process.env.PORT || 8000;
 
-// const redis = new Redis({
-//   port: process.env.REDIS_PORT || 6379,
-//   host: process.env.REDIS_HOST || "127.0.0.1",
-// });
-
-const redis = Redis.createClient(process.env.REDISCLOUD_URL, {
-  no_ready_check: true,
-});
+const redis =
+  process.env.NODE_ENV == "production"
+    ? Redis.createClient(process.env.REDISCLOUD_URL, {
+        no_ready_check: true,
+      })
+    : new Redis({
+        port: process.env.REDIS_PORT || 6379,
+        host: process.env.REDIS_HOST || "127.0.0.1",
+      });
 
 const countryEndpoint = (country) =>
   `https://restcountries.com/v3.1/name/${country}`;

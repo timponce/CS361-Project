@@ -27,7 +27,10 @@ function App() {
 
   const fetchCountryData = async (searchQuery: string) => {
     try {
-      const response = await fetch(`${apiURL}${searchQuery}${apiURLFilters}`);
+      const response =
+        searchQuery === "random"
+          ? await fetch("random")
+          : await fetch(`${apiURL}${searchQuery}${apiURLFilters}`);
       let data = await response.json();
       setFetchData({ ...data, source: data.source, responseTime: data.time });
       data = cleanCountryData(data[0]);
@@ -39,7 +42,21 @@ function App() {
 
   return (
     <div className="App">
+      <h1>Country Data</h1>
+      <p>Explore the world and get to know more about any country you wish.</p>
       <Search fetchCountryData={fetchCountryData} />
+      <p>
+        In this application, you can either search for a specific country of
+        your choice OR get facts about a random country!
+      </p>
+      <p>
+        If you are unsure of where to start looking, we recommend that you click
+        Random to start exploring.
+      </p>
+      <p>
+        If you accidentally navigate away from the page, you can always use the
+        search bar to find the country you were looking for.
+      </p>
       {countryData ? (
         <Results countryData={countryData} fetchData={fetchData} />
       ) : null}

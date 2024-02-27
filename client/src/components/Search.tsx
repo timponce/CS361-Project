@@ -6,6 +6,10 @@ function Search({ fetchCountryData }: { fetchCountryData: any }) {
     e.preventDefault();
     fetchCountryData(query);
   }
+  async function handleRandom(e: React.FormEvent) {
+    e.preventDefault();
+    fetchCountryData("random");
+  }
   return (
     <div>
       <h1>Search</h1>
@@ -17,6 +21,9 @@ function Search({ fetchCountryData }: { fetchCountryData: any }) {
           onChange={(e) => setQuery(e.target.value)}
         />
         <button type="submit">Search</button>
+      </form>
+      <form method="POST" action="" onSubmit={handleRandom}>
+        <button type="submit">Random</button>
       </form>
     </div>
   );

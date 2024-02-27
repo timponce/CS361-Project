@@ -67,6 +67,22 @@ app.get("/country/:countryName", async (req, res) => {
   }
 });
 
+app.get("/random", async (req, res) => {
+  try {
+    let response = await fetch("https://restcountries.com/v3.1/all");
+    if (!response.ok) {
+      throw new Error("Failed to fetch random country");
+    }
+
+    const data = await response.json();
+    const randomCountry = data[Math.floor(Math.random() * data.length)];
+    let countryInfo = await getCountryInfo(randomCountry.name.common);
+    res.json(countryInfo);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 app.get("*", (req, res) => {
   res.sendFile(path.resolve(clientBuildPath, "index.html"));
 });

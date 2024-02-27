@@ -63,7 +63,7 @@ Optionally, you can clone this repository to you local machine and utilize the b
 
 After cloning the repo, you can discard the client/ folder. You must create a .env file and define PORT to point to where the backend service will run. Additionally, if wishing to utilize Redis caching, define REDIST_PORT and REDIS_HOST. The microservice should function without implementing a local Redis cache but you can implement it if you wish to speed up the microservice.
 
-To implement Redis, you must install [Docker](https://docs.docker.com/desktop/) on your local machine and then create a redis instance within in docker.
+To implement Redis, you must install [Docker](https://docs.docker.com/desktop/) on your local machine and then create a redis instance in docker.
 
 Then you can call the microservice as usual but at the assigned port. For instance, localhost:8000/country/:country
 

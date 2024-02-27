@@ -67,6 +67,10 @@ To implement Redis, you must install [Docker](https://docs.docker.com/desktop/) 
 
 Then you can call the microservice as usual but at the assigned port. For instance, localhost:8000/country/:country
 
+### UML Sequence Diagram
+
+![UML Sequence Diagram](/screenshots/UML_Seq_Diagram.png)
+
 ### Technologies Used
 
 - Express

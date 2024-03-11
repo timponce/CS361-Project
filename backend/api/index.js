@@ -25,6 +25,9 @@ const redis =
 const countryEndpoint = (country) =>
   `https://restcountries.com/v3.1/name/${country}`;
 
+const countryWeatherEndpoint = (country) =>
+  `https://cs361-weather-application-9e327677106b.herokuapp.com/countryweather?text=${country}`;
+
 const getCountryInfo = async (country) => {
   const t0 = Date.now();
   try {
@@ -53,6 +56,23 @@ const getCountryInfo = async (country) => {
   }
 };
 
+const getCountryWeather = async (country) => {
+  try {
+    let response = await fetch(
+      `https://cs361-weather-application-9e327677106b.herokuapp.com/countryweather?text=${country}`
+    );
+    if (!response.ok) {
+      throw new Error(`Failed to fetch weather info for ${country}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+    return { error: error.message };
+  }
+};
+
 app.use(cors());
 
 app.use(express.static(clientBuildPath));
@@ -62,6 +82,16 @@ app.get("/country/:countryName", async (req, res) => {
   try {
     let countryInfo = await getCountryInfo(countryName);
     res.json(countryInfo);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.get("/countryweather/:countryName", async (req, res) => {
+  const countryName = req.params.countryName;
+  try {
+    let countryWeather = await getCountryWeather(countryName);
+    res.json(countryWeather);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

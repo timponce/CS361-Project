@@ -37,7 +37,8 @@ function Results({
               <img src={countryData.flag} alt={countryData.flagAllText} />
             </td>
             <td>
-              <button>Get Forecast</button>
+              {countryData.conditions}, {countryData.temp}
+              {" ºC"}
             </td>
           </tr>
         </tbody>

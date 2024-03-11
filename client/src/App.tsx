@@ -4,8 +4,10 @@ import Search from "./components/Search";
 import Results from "./components/Results";
 
 function App() {
-  const apiURL = "/country/";
-  const apiURLFilters = "?fields=name,capital,population,languages,flag,flags";
+  const infoApiUrl = "/country/";
+  const infoApiUrlFilters =
+    "?fields=name,capital,population,languages,flag,flags";
+  const weatherApiUrl = "/countryWeather/";
 
   const [countryData, setCountryData] = React.useState(null);
   const [fetchData, setFetchData] = React.useState(null);
@@ -21,20 +23,33 @@ function App() {
       flag: data.flags.png,
       flagAltText: data.flags.alt,
       emoji: data.flag,
+      conditions: data.weatherData.weather[0].main,
+      temp: data.weatherData.main.temp,
     };
     return cleanData;
   };
 
   const fetchCountryData = async (searchQuery: string) => {
     try {
-      const response =
+      const infoResponse =
         searchQuery === "random"
           ? await fetch("random")
-          : await fetch(`${apiURL}${searchQuery}${apiURLFilters}`);
-      let data = await response.json();
-      setFetchData({ ...data, source: data.source, responseTime: data.time });
-      data = cleanCountryData(data[0]);
-      setCountryData(data);
+          : await fetch(`${infoApiUrl}${searchQuery}${infoApiUrlFilters}`);
+      let infoData = await infoResponse.json();
+      let countryName =
+        searchQuery === "random" ? infoData[0].name.common : searchQuery;
+      const weatherResponse = await fetch(`${weatherApiUrl}${countryName}`);
+      let weatherData = await weatherResponse.json();
+
+      setFetchData({
+        ...infoData,
+        ...weatherData,
+        source: infoData.source,
+        responseTime: infoData.time,
+      });
+      console.log({ ...infoData[0], ...weatherData });
+      infoData = cleanCountryData({ ...infoData[0], weatherData });
+      setCountryData(infoData);
     } catch (error) {
       console.log(`Error fetching data: ${error}`);
     }

@@ -46,7 +46,16 @@ const getCountryInfo = async (country) => {
       throw new Error(`Failed to fetch country info for ${country}`);
     }
 
-    const data = await response.json();
+    let data = await response.json();
+    data = {
+      country: data[0].name.common,
+      officialName: data[0].name.official,
+      capital: data[0].capital,
+      population: data[0].population,
+      flag: data[0].flags.png,
+      flagAltText: data[0].flags.alt,
+      emoji: data[0].flag,
+    };
 
     redis.set(`country:${country}`, JSON.stringify(data), "EX", 3600);
     return { ...data, source: "API", time: `${Date.now() - t0}ms` };
@@ -58,9 +67,7 @@ const getCountryInfo = async (country) => {
 
 const getCountryWeather = async (country) => {
   try {
-    let response = await fetch(
-      `https://cs361-weather-application-9e327677106b.herokuapp.com/countryweather?text=${country}`
-    );
+    let response = await fetch(countryWeatherEndpoint(country));
     if (!response.ok) {
       throw new Error(`Failed to fetch weather info for ${country}`);
     }

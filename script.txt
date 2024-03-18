@@ -1,0 +1,56 @@
+FEATURES:
+
+In this application, you can either search
+for a country or get one at random and
+facts about said country will populate in a 
+table below.
+You can do this as many times as you like.
+
+MICROSERVICE:
+
+The microservice provides the current weather
+for the country.
+
+HEURISTICS:
+
+H1: The name and first sentence convice the user
+to get to know more about any country.
+
+H2: The costs are explained to the user, 1 second
+per search and free to use.
+
+H3: The user can either search for a specific country
+or get a random one, allowing them to get information
+in a targeted way or just explore randomly.
+
+H4: This format is familiar to many webpages online
+in presenting information in a vertical hierarchy. 
+The headings separate the page into distinct areas,
+and the user follows from top to bottom. The search
+and the results table are always in the same
+area no matter the state of the webpage.
+
+H5: It is explained that the data is persistent and
+a user should not worry if they navigate away as 
+they can always find this information again via the
+search.
+
+H6: There are step by steps instructions under on
+how to perform a search, either by typing in a 
+country or pressing random.
+
+H7: There are multiple ways of finding facts about
+a country, either randomly or via a search query.
+
+H8: The application asks users to wait until 
+the results are displayed before doing another
+search to prevent users from spam clicking the
+buttons.
+
+QUALITY ATTRIBUTE:
+
+The webpage displays the quality attribute of 
+responsiveness by delivering results in under 1
+second (1000ms) and even caching the data as it 
+is fetched from the API to deliver results in
+under 10ms.

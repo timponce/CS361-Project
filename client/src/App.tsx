@@ -5,8 +5,6 @@ import Results from "./components/Results";
 
 function App() {
   const infoApiUrl = "/country/";
-  const infoApiUrlFilters =
-    "?fields=name,capital,population,languages,flag,flags";
   const weatherApiUrl = "/countryWeather/";
 
   const [countryData, setCountryData] = React.useState(null);
@@ -14,15 +12,7 @@ function App() {
 
   const cleanCountryData = (data: any) => {
     const cleanData = {
-      country: data.name.common,
-      officialName: data.name.official,
-      // nativeName: data.name.nativeName[Object.keys(data.name)[0]].common,
-      capital: data.capital,
-      population: data.population,
-      // language: data.languages[0],
-      flag: data.flags.png,
-      flagAltText: data.flags.alt,
-      emoji: data.flag,
+      ...data,
       conditions: data.weatherData.weather[0].main,
       temp: data.weatherData.main.temp,
     };
@@ -34,11 +24,11 @@ function App() {
       const infoResponse =
         searchQuery === "random"
           ? await fetch("random")
-          : await fetch(`${infoApiUrl}${searchQuery}${infoApiUrlFilters}`);
+          : await fetch(`${infoApiUrl}${searchQuery}`);
       let infoData = await infoResponse.json();
-      let countryName =
-        searchQuery === "random" ? infoData[0].name.common : searchQuery;
-      const weatherResponse = await fetch(`${weatherApiUrl}${countryName}`);
+      const weatherResponse = await fetch(
+        `${weatherApiUrl}${infoData.country}`
+      );
       let weatherData = await weatherResponse.json();
 
       setFetchData({
@@ -47,8 +37,7 @@ function App() {
         source: infoData.source,
         responseTime: infoData.time,
       });
-      console.log({ ...infoData[0], ...weatherData });
-      infoData = cleanCountryData({ ...infoData[0], weatherData });
+      infoData = cleanCountryData({ ...infoData, weatherData });
       setCountryData(infoData);
     } catch (error) {
       console.log(`Error fetching data: ${error}`);
@@ -57,21 +46,24 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Country Data</h1>
-      <p>Explore the world and get to know more about any country you wish.</p>
+      <h1>Country Facts</h1>
+      <p>
+        Welcome! This webpage allows you to explore the world by learning a few
+        facts about a particular country. To do so, you can either enter perform
+        a search for a specific country using the text input below, or if you
+        don't know where to begin, click the random button to start exploring!
+      </p>
+      <p>
+        Using this application is entirely free and each search will complete in
+        under a second. Please wait until each search is complete before
+        executing another. Lastly, the data in this application will persist
+        whether you navigate away from any search result or even if you decide
+        to leave this site and come back. So if you make any mistakes or want to
+        go back to a previous search, you can always do so via the search
+        function and get the same results from before.
+      </p>
+      <p>Enjoy exploring and learning!</p>
       <Search fetchCountryData={fetchCountryData} />
-      <p>
-        In this application, you can either search for a specific country of
-        your choice OR get facts about a random country!
-      </p>
-      <p>
-        If you are unsure of where to start looking, we recommend that you click
-        Random to start exploring.
-      </p>
-      <p>
-        If you accidentally navigate away from the page, you can always use the
-        search bar to find the country you were looking for.
-      </p>
       {countryData ? (
         <Results countryData={countryData} fetchData={fetchData} />
       ) : null}
